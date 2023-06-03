@@ -1,0 +1,97 @@
+// Level 1 
+// Используя ресурс json placeholder получите всех юзеров и отправьте в консоль только 
+// 1) username-ы отсортированный по алфавиту
+// 2) Количество постов каждого из юзеров в параметре: post_count
+
+//1)
+const usernames = ["john", "alice", "bob", "carol"];
+usernames.sort();
+console.log(usernames); 
+
+//2)
+const users = {
+  john: 10,
+  alice: 5,
+  bob: 15,
+  carol: 7
+};
+console.log(users["john"]); // 10
+console.log(users["alice"]); // 5
+console.log(users["carol"]); //7
+console.log(users["bob"]); //15
+
+
+// 3.1.
+//  Создайте страницу, которая отображает ID, City, Country полученные из 
+// запроса по ссылке: https://random-data-api.com/api/address/random_address
+// Создайте функцию, которая каждые полторы секунды 
+// проверяет - если в ответе на GET запрос 
+// поменялся  ID, то вызываем другую функцию, цель которой получить 
+// новые данные и обновить HTML, а если данные не изменились - ничего не делаем.
+
+
+const addressTable = document.getElementById("address");
+const idCell = document.getElementById("id");
+const cityCell = document.getElementById("city");
+const countryCell = document.getElementById("country");
+let currentId = null;
+
+function updateAddress() {
+  fetch("https://random-data-api.com/api/address/random_address")
+    .then(response => response.json())
+    .then(data => {
+      if (data.id !== currentId) {
+        currentId = data.id;
+        idCell.textContent = data.id;
+        cityCell.textContent = data.city;
+        countryCell.textContent = data.country;
+        addressTable.style.display = "table"; 
+      }
+    })
+    .catch(error => console.error("TRU"));
+}
+
+// setInterval(updateAddress, 1500); 
+
+
+
+// 3.2. 
+// Выполните GET запрос на ресурс: https://api.twitter.com/1.1/statuses/update.json
+// Обработайте все возможные ошибки, а в случае именно этой: 
+// Введите в консоль русскими буквами и словами сообщение о том, 
+// что именно произошло?
+
+fetch("https://api.twitter.com/1.1/statuses/update.json")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`Ошибка HTTP: ${response.status}`);
+    }
+    return response.json();
+  })
+  .then(data => {
+    
+  })
+  .catch(error => {
+    if (error.message.includes("Ошибка HTTP: 401")) {
+      console.error("Не авторизован.Запрос обрабатывается, но доступ к запрашиваемому ресурсу не предоставляется, поскольку клиент не авторизован.");
+    } else {
+      console.error("Запрос не может быть обработан, поскольку содержит синтаксическую ошибку.");
+    }
+  });
+
+
+
+//   Level 2  Эту Задачу не понял!!!!!
+
+
+// Выведите всю информацию в виде таблицы на экран и 
+// предоставьте функции сортировки по каждой из двух колонок: 
+// а) username (default sort by alphabetical) 
+// b) post_count
+// 👉👉👉 Название функций, названия переменных, 
+// названия самих колонок в HTML выберите так,
+//  чтобы было понятно что они из себя представляют! 
+
+
+
+  
